@@ -6,7 +6,7 @@ on:
     branches:
       - main  # Runs every time you push to the main branch
   schedule:
-    - cron: '0 0 * * *'  # ALSO runs automatically every night at midnight UTC (optional)
+    - cron: '0 0 * * 1'  # ALSO runs automatically every night at midnight UTC (optional)
   workflow_dispatch:     # Allows you to trigger it manually with a button click
 
 jobs:
