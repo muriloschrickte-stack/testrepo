@@ -1,0 +1,34 @@
+name: Backup to Google Drive
+
+# This determines when the backup runs
+on:
+  push:
+    branches:
+      - main  # Runs every time you push to the main branch
+  schedule:
+    - cron: '0 0 * * *'  # ALSO runs automatically every night at midnight UTC (optional)
+  workflow_dispatch:     # Allows you to trigger it manually with a button click
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Download the repository code onto GitHub's runner
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    # Step 2: Zip the entire repository, ignoring the hidden .git folder
+    - name: Zip Repository
+      run: |
+        sudo apt-get install zip
+        zip -r repository-backup.zip . -x "*.git*"
+
+    # Step 3: Upload the zip file to Google Drive using your secrets
+    - name: Upload to Google Drive
+      uses: adityak74/google-drive-upload@v2.0.1
+      with:
+        credentials: ${{ secrets.GDRIVE_CREDENTIALS }}
+        filename: 'repository-backup.zip'
+        folderId: ${{ secrets.GDRIVE_FOLDER_ID }}
+        overwrite: "false" # Changes to "true" if you just want to overwrite one single file instead of keeping history
