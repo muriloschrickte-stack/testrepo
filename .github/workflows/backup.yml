@@ -26,7 +26,7 @@ jobs:
 
     # Step 3: Upload the zip file to Google Drive using your secrets
     - name: Upload to Google Drive
-      uses: adityak74/google-drive-upload@v2.0.1
+      uses: adityak74/google-drive-upload-git-action@main
       with:
         credentials: ${{ secrets.GDRIVE_CREDENTIALS }}
         filename: 'repository-backup.zip'
